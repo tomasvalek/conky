@@ -3,7 +3,9 @@ Based on https://github.com/brndnmtthws/conky software.
 
 ### Installation of Conky
 ```sh
-$ sudo apt-get install conky
+$ sudo apt-get install conky lm-sensors
+$ sudo sensors-detect
+$ sudo module-init-tools start
 Copy file: .conkyrc to ~/ directory
 ```
 ### Set Conky to start after 5s at boot (for Gnome)
