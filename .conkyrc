@@ -1,0 +1,79 @@
+alignment top_right					#display position
+maximum_width 250
+background no
+cpu_avg_samples 2					#count of samples for calc. load CPU
+net_avg_samples 2					#pocet vzorku pro vypocet prumerne zateze site
+default_outline_color black
+draw_outline yes
+use_xft yes							#anti-aliased font and stuff
+xftfont DejaVu Sans Mono:size=10	#set font
+xftalpha 1
+gap_x 5
+minimum_size 150 5					#min size of screen
+no_buffers yes
+out_to_console no					#no print to stdout
+out_to_stderr no					#no print to stderr
+own_window yes						#own window for conky
+own_window_transparent yes			#transparent background
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager #include to desktop window without decoration
+update_interval 1					#refresh
+update_interval_on_battery 5		#refresh interval on battery
+total_run_times 0					#run forever
+double_buffer yes					#flicker elimination
+override_utf8_locale yes			#requires XFT 
+
+ 
+TEXT
+
+#SYSTEM
+${color orange}SYSTEM $loadavg ${hr 2}$color
+$kernel $alignr$machine
+Uptime $alignr$uptime
+File System $alignr$fs_type
+HDD Free $alignr${fs_free /}
+HDD Read $alignr${diskio_read sda}
+HDD Write $alignr${diskio_write sda}
+
+#SOURCES
+${color orange}CPU/RAM ${hr 2}$color
+#Depends on lm-sensors and sensors-detect and sudo service module-init-tools start
+Core0: ${freq_g cpu1}GHz ${execi 8 sensors | grep 'Core 0' | cut -c18-19}°C ${cpubar cpu1}
+Core1: ${freq_g cpu2}GHz ${execi 8 sensors | grep 'Core 0' | cut -c18-19}°C ${cpubar cpu2}
+Core2: ${freq_g cpu3}GHz ${execi 8 sensors | grep 'Core 1' | cut -c18-19}°C ${cpubar cpu3}
+Core3: ${freq_g cpu4}GHz ${execi 8 sensors | grep 'Core 1' | cut -c18-19}°C ${cpubar cpu4}
+CPU FAN: $alignr ${execi 8 sensors | grep 'CPU FAN Speed' | cut -c19-23} RPM
+# RAM
+RAM $alignc $mem / $memmax $alignr $memperc%
+$membar
+
+# NETWORK
+${color orange}ETHERNET/WI-FI ${hr 2}$color
+IP public $alignr ${execi 180 wget -q -O - checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//'}${if_existing /sys/class/net/eth0/operstate up}
+IP (eth0) $alignr ${addr eth0}
+Download (eth0) $alignr ${downspeedf eth0}KiB/s
+Upload (eth0) $alignr ${upspeedf eth0}KiB/s
+Total $alignr down ${totaldown eth0} up ${totalup eth0}
+${endif}${if_existing /sys/class/net/wlan0/operstate up}
+# WLAN
+ESSID $alignr ${wireless_essid wlan0}
+Bitrate $alignr${wireless_bitrate wlan0}
+Kvalita signálu $alignr ${wireless_link_qual_perc wlan0} %
+${wireless_link_bar wlan0}
+Download (wlan0) $alignr ${downspeedf wlan0}KiB/s
+Upload (wlan0) $alignr ${upspeedf wlan0}KiB/s
+Total $alignr down ${totaldown wlan0} up ${totalup wlan0}
+${endif}
+${color orange}PROCESSES $processes ($running_processes running) ${hr 2}$color
+Top CPU $alignr PID   CPU% ${hr 2}${color}${font}
+${top name 1} $alignr ${top pid 1} ${top cpu 1}%
+${top name 2} $alignr ${top pid 2} ${top cpu 2}%
+${top name 3} $alignr ${top pid 3} ${top cpu 3}%
+${top name 4} $alignr ${top pid 4} ${top cpu 4}%
+${top name 5} $alignr ${top pid 5} ${top cpu 5}%
+
+Top MEMORY $alignr PID   MEM ${hr 2}${color}${font}
+${top_mem name 1} $alignr ${top_mem pid 1} ${top_mem mem_res 1}
+${top_mem name 2} $alignr ${top_mem pid 2} ${top_mem mem_res 2}
+${top_mem name 3} $alignr ${top_mem pid 3} ${top_mem mem_res 3}
+${top_mem name 4} $alignr ${top_mem pid 4} ${top_mem mem_res 4}
+${top_mem name 5} $alignr ${top_mem pid 5} ${top_mem mem_res 5}
