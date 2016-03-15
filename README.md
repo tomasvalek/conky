@@ -1,7 +1,7 @@
 # Conky
 Based on https://github.com/brndnmtthws/conky software.
 
-### Installation of Conky
+### Installation of Conky, lm-sensors
 ```sh
 $ sudo apt-get install conky lm-sensors
 $ sudo sensors-detect
