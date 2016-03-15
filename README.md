@@ -1,9 +1,6 @@
 # Conky
 Based on https://github.com/brndnmtthws/conky software.
 
-###Screenshot
-![Screenshot](screenshot.jpeg?raw=true)
-
 ### Installation of Conky
 ```sh
 $ sudo apt-get install conky
@@ -20,6 +17,5 @@ Name: Conky
 Command: conky -p 5
 ```
 
-License
-----
-MIT
+###Screenshot (click for fullscreen)
+![Screenshot](screenshot.jpeg?raw=true)
